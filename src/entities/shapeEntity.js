@@ -10,9 +10,13 @@ class ShapeEntity extends BaseEntity {
   }
   populate(shapeObject, shapeArgs, canvasX, canvasY) {
     this.location = this.getLocation(shapeObject, shapeArgs, canvasX, canvasY);
-    this.areaAbs = this.getObjectArea(shapeObject.name, shapeArgs);
     this.coordLoc = this.canvasLocator(shapeObject, shapeArgs, canvasX, canvasY);
-    this.area = (this.getObjectArea(shapeObject.name, shapeArgs) * 100 / (canvasX * canvasY)).toFixed(2) + `%`;
+    if (!shapeObject.name.localeCompare(`ellipse`) || !shapeObject.name.localeCompare(`rect`) || !shapeObject.name.localeCompare(`triangle`) || !shapeObject.name.localeCompare(`quad`)) {
+      this.areaAbs = this.getObjectArea(shapeObject.name, arguments);
+      this.area = (this.getObjectArea(shapeObject.name, arguments) * 100 / (canvasX * canvasY)).toFixed(2) + `%`;
+    } else if (!shapeObject.name.localeCompare(`line`)) {
+      this.length = this.getLineLength(arguments);
+    }
   }
   getAttributes() {
     const {
